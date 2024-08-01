@@ -2,7 +2,7 @@ resource "aws_launch_template" "example" {
   name = "example-launch-template"
 
   instance_type = "t2.micro"
-  key_name        = aws_key_pair.ec2_key.key_name  # 실제 키 페어 이름으로 변경해야 합니다.
+  key_name      = aws_key_pair.ec2_key.key_name # 실제 키 페어 이름으로 변경해야 합니다.
 
   iam_instance_profile {
     name = aws_iam_instance_profile.example.name
