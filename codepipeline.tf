@@ -1,4 +1,3 @@
-# codepipeline
 resource "aws_codepipeline" "pipeline" {
   name     = "airline-booking-pipeline"
   role_arn = aws_iam_role.codepipeline_role.arn
