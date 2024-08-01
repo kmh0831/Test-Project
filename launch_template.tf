@@ -5,7 +5,7 @@ resource "aws_launch_template" "example" {
   key_name        = aws_key_pair.ec2_key.key_name  # 실제 키 페어 이름으로 변경해야 합니다.
 
   iam_instance_profile {
-    name = aws_iam_instance_profile.ec2_instance_profile.name
+    name = aws_iam_instance_profile.example.name
   }
 
   user_data = <<-EOF
@@ -24,4 +24,9 @@ resource "aws_launch_template" "example" {
   tags = {
     Name = "example-instance"
   }
+}
+
+resource "aws_iam_instance_profile" "codedeploy_instance_profile" {
+  name = "codedeploy_instance_profile"
+  role = aws_iam_role.codedeploy_role.name
 }
