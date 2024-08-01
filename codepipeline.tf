@@ -1,3 +1,4 @@
+# codepipeline
 resource "aws_codepipeline" "pipeline" {
   name     = "airline-booking-pipeline"
   role_arn = aws_iam_role.codepipeline_role.arn
@@ -19,7 +20,7 @@ resource "aws_codepipeline" "pipeline" {
       output_artifacts = ["source_output"]
 
       configuration = {
-        RepositoryName = aws_codecommit_repository.repository.repository_name
+        RepositoryName = aws_codecommit_repository.airline_booking_repo.repository_name
         BranchName     = "main"
       }
     }
