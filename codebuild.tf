@@ -1,4 +1,3 @@
-# codebuild
 resource "aws_codebuild_project" "build_project" {
   name         = "airline-booking-build"
   service_role = aws_iam_role.codebuild_role.arn
@@ -13,6 +12,7 @@ resource "aws_codebuild_project" "build_project" {
     compute_type = "BUILD_GENERAL1_SMALL"
     image        = "aws/codebuild/standard:4.0"
     type         = "LINUX_CONTAINER"
+
     environment_variable {
       name  = "NODE_ENV"
       value = "production"
@@ -21,7 +21,7 @@ resource "aws_codebuild_project" "build_project" {
 
   source {
     type      = "CODECOMMIT"
-    location  = aws_codecommit_repository.repository.clone_url_http
+    location  = aws_codecommit_repository.airline_booking_repo.clone_url_http
     buildspec = <<EOF
 version: 0.2
 
