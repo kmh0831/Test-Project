@@ -49,7 +49,7 @@ resource "aws_iam_policy" "codepipeline_policy" {
 
 resource "aws_iam_role_policy_attachment" "codepipeline_policy_attachment" {
   role       = aws_iam_role.codepipeline_role.name
-  policy_arn  = aws_iam_policy.codepipeline_policy.arn
+  policy_arn = aws_iam_policy.codepipeline_policy.arn
 }
 
 
@@ -112,7 +112,7 @@ resource "aws_iam_policy" "codedeploy_policy" {
 
 resource "aws_iam_role_policy_attachment" "codedeploy_policy_attachment" {
   role       = aws_iam_role.codedeploy_role.name
-  policy_arn  = aws_iam_policy.codedeploy_policy.arn
+  policy_arn = aws_iam_policy.codedeploy_policy.arn
 }
 
 # CodeBuild IAM
@@ -161,7 +161,7 @@ resource "aws_iam_policy" "codebuild_policy" {
 
 resource "aws_iam_role_policy_attachment" "codebuild_policy_attachment" {
   role       = aws_iam_role.codebuild_role.name
-  policy_arn  = aws_iam_policy.codebuild_policy.arn
+  policy_arn = aws_iam_policy.codebuild_policy.arn
 }
 
 # IAM 역할 생성
@@ -174,7 +174,7 @@ resource "aws_iam_role" "role_name" {
       {
         Effect = "Allow"
         Principal = {
-          Service = "service.amazonaws.com"  # 여기에 적절한 서비스 이름을 사용하세요.
+          Service = "service.amazonaws.com" # 여기에 적절한 서비스 이름을 사용하세요.
         }
         Action = "sts:AssumeRole"
       },
@@ -208,5 +208,5 @@ resource "aws_iam_policy" "policy_name" {
 # IAM 역할과 정책 연결
 resource "aws_iam_role_policy_attachment" "attachment_name" {
   role       = aws_iam_role.role_name.name
-  policy_arn  = aws_iam_policy.policy_name.arn
+  policy_arn = aws_iam_policy.policy_name.arn
 }
