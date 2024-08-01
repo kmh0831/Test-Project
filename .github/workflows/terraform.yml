@@ -3,10 +3,10 @@ name: 'Terraform'
 on:
   push:
     branches:
-    - "main"
+      - "main"
   pull_request:
     branches:
-    - "main"
+      - "main"
 
 env:
   AWS_REGION: ap-northeast-2  # 기본 AWS 지역 설정
@@ -29,6 +29,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4 # 최신 버전으로 업데이트
 
+    - name: Set up Node.js
+      uses: actions/setup-node@v3 # Node.js 최신 버전 사용
+      with:
+        node-version: '18' # Node.js 버전 18 사용
+
     - name: Set up Terraform
       uses: hashicorp/setup-terraform@v3 # 최신 버전으로 업데이트
       with:
@@ -37,8 +42,6 @@ jobs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v3 # 최신 버전으로 업데이트
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
 
     - name: Terraform Init
@@ -48,8 +51,8 @@ jobs:
       run: terraform fmt -check
 
     - name: Terraform Plan
-      run: terraform plan -input=false -debug
+      run: terraform plan -input=false -out=tfplan -no-color
 
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: terraform apply -auto-approve -input=false -debug
+      run: terraform apply -input=false -auto-approve tfplan
