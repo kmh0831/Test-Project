@@ -1,6 +1,5 @@
 resource "aws_s3_bucket" "artifact_bucket" {
   bucket = "artifact-bucket-kmhyuk0831"
-  acl    = "private"
 }
 
 resource "aws_iam_role" "codebuild_role" {

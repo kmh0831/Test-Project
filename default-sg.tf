@@ -2,7 +2,7 @@
 resource "aws_security_group" "allow_http" {
   name        = "allow_http"
   description = "Allow HTTP traffic"
-  vpc_id      = aws_vpc.vpc-1.id  # 적절한 VPC ID로 변경하세요.
+  vpc_id      = aws_vpc.vpc-1.id # 적절한 VPC ID로 변경하세요.
 
   ingress {
     from_port   = 80
