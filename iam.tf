@@ -174,13 +174,20 @@ resource "aws_iam_role" "role_name" {
       {
         Effect = "Allow"
         Principal = {
-          Service = "service.amazonaws.com" # 여기에 적절한 서비스 이름을 사용하세요.
+          Service = [
+            "codebuild.amazonaws.com",
+            "codedeploy.amazonaws.com",
+            "codepipeline.amazonaws.com",
+            "ec2.amazonaws.com",
+            "s3.amazonaws.com"
+          ]
         }
         Action = "sts:AssumeRole"
       },
     ]
   })
 }
+
 
 # IAM 정책 생성
 resource "aws_iam_policy" "policy_name" {
