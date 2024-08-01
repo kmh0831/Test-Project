@@ -1,0 +1,27 @@
+resource "aws_launch_template" "example" {
+  name = "example-launch-template"
+
+  instance_type = "t2.micro"
+  key_name        = aws_key_pair.ec2_key.key_name  # 실제 키 페어 이름으로 변경해야 합니다.
+
+  iam_instance_profile {
+    name = aws_iam_instance_profile.ec2_instance_profile.name
+  }
+
+  user_data = <<-EOF
+              #!/bin/bash
+              yum update -y
+              yum install -y ruby wget
+              cd /home/ec2-user
+              wget https://aws-codedeploy-us-west-2.s3.us-west-2.amazonaws.com/latest/install
+              chmod +x ./install
+              ./install auto
+              service codedeploy-agent start
+              sudo yum install -y httpd
+              sudo systemctl enable --now httpd
+              EOF
+
+  tags = {
+    Name = "example-instance"
+  }
+}
