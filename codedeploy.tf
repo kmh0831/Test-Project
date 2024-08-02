@@ -21,5 +21,11 @@ resource "aws_codedeploy_deployment_group" "deployment_group" {
     green_fleet_provisioning_option {
       action = "DISCOVER_EXISTING"
     }
+
+    terminate_blue_instances_on_deployment_success {
+      action = "TERMINATE" # 또는 "KEEP_ALIVE"
+      termination_wait_time_in_minutes = 5 # (옵션) 블루 인스턴스 종료 대기 시간
+    }
   }
 }
+

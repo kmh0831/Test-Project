@@ -12,14 +12,14 @@ resource "aws_launch_template" "code_deploy_template" {
 
   image_id      = data.aws_ami.amazon_linux.id
   instance_type = "t2.micro"
-  key_name      = "ec2_key"
+  key_name      = aws_key_pair.ec2_key.key_name  # 여기에 올바른 키 쌍 이름을 사용하세요
 
   user_data = base64encode(<<-EOF
               #!/bin/bash
               yum update -y
               yum install -y ruby wget
               cd /home/ec2-user
-              wget https://aws-codedeploy-us-west-2.s3.us-west-2.amazonaws.com/latest/install
+              wget https://aws-codedeploy-${data.aws_region.current.name}.s3.${data.aws_region.current.name}.amazonaws.com/latest/install
               chmod +x ./install
               ./install auto
               service codedeploy-agent start
@@ -38,3 +38,5 @@ data "aws_ami" "amazon_linux" {
     values = ["amzn2-ami-hvm-*-x86_64-gp2"]
   }
 }
+
+data "aws_region" "current" {}
