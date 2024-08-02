@@ -56,9 +56,10 @@ jobs:
       run: terraform plan -input=false -out=tfplan -no-color
 
     - name: Terraform Apply
+      id: apply
       continue-on-error: true
       run: terraform apply -input=false -auto-approve tfplan
 
     - name: Terraform Destroy on Failure
-      if: failure()
+      if: ${{ failure() || steps.apply.outcome == 'failure' }}
       run: terraform destroy -auto-approve
