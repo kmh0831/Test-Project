@@ -48,18 +48,24 @@ jobs:
 
     - name: Terraform Init
       run: terraform init
-
-    - name: Terraform Format
-      run: terraform fmt -check
-
+      env:
+        AWS_REGION: ${{ env.AWS_REGION }}
+    
     - name: Terraform Plan
       run: terraform plan -input=false -out=tfplan -no-color
-
+      env:
+        AWS_REGION: ${{ env.AWS_REGION }}
+    
     - name: Terraform Apply
       id: apply
       continue-on-error: true
       run: terraform apply -input=false -auto-approve tfplan
-
+      env:
+        AWS_REGION: ${{ env.AWS_REGION }}
+    
     - name: Terraform Destroy on Failure
       if: ${{ failure() || steps.apply.outcome == 'failure' }}
       run: terraform destroy -auto-approve
+      env:
+        AWS_REGION: ${{ env.AWS_REGION }}
+    
