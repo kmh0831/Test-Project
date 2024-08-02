@@ -37,14 +37,8 @@ data "aws_iam_instance_profile" "example" {
   name = "Terraform-IAM"
 }
 
-resource "aws_launch_template" "example" {
-  name = "example-launch-template"
-
-  instance_type = "t2.micro"
-
-  iam_instance_profile {
-    name = aws_iam_instance_profile.example[0].name  # 인덱스 사용
-  }
-
-  # 기타 설정 ...
+resource "aws_iam_instance_profile" "example" {
+  count = data.aws_iam_instance_profile.example.id == "" ? 1 : 0
+  name  = "Terraform-IAM"
+  role  = aws_iam_role.codepipeline_role[0].name
 }
