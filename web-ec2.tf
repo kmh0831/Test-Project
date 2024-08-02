@@ -33,7 +33,12 @@ resource "aws_instance" "nat_2" {
   }
 }
 
-resource "aws_iam_instance_profile" "example" {
+data "aws_iam_instance_profile" "example" {
   name = "Terraform-IAM"
-  role = aws_iam_role.role_name.name
+}
+
+resource "aws_iam_instance_profile" "example" {
+  count = data.aws_iam_instance_profile.example.id == "" ? 1 : 0
+  name  = "Terraform-IAM"
+  role  = aws_iam_role.codepipeline_role.name
 }

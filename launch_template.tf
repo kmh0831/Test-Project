@@ -26,7 +26,13 @@ resource "aws_launch_template" "example" {
   }
 }
 
+data "aws_iam_instance_profile" "existing_codedeploy_instance_profile" {
+  name = "codedeploy_instance_profile"
+}
+
 resource "aws_iam_instance_profile" "codedeploy_instance_profile" {
+  count = data.aws_iam_instance_profile.existing_codedeploy_instance_profile.id != "" ? 0 : 1
+
   name = "codedeploy_instance_profile"
   role = aws_iam_role.codedeploy_role.name
 }
