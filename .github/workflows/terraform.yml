@@ -1,4 +1,3 @@
-# terraform.yml
 name: 'Terraform'
 
 on:
@@ -56,9 +55,10 @@ jobs:
     - name: Terraform Plan
       run: terraform plan -input=false -out=tfplan -no-color
 
-    # - name: Terraform Apply
-    #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    #   run: terraform apply -input=false -auto-approve tfplan
+    - name: Terraform Apply
+      continue-on-error: true
+      run: terraform apply -input=false -auto-approve tfplan
 
-    - name: Terraform Destroy
+    - name: Terraform Destroy on Failure
+      if: failure()
       run: terraform destroy -auto-approve
