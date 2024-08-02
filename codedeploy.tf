@@ -6,7 +6,7 @@ resource "aws_codedeploy_app" "app" {
 resource "aws_codedeploy_deployment_group" "deployment_group" {
   app_name              = aws_codedeploy_app.app.name
   deployment_group_name = "airline-booking-deployment-group"
-  service_role_arn      = aws_iam_role.codedeploy_role.arn
+  service_role_arn      = aws_iam_role.codedeploy_role[0].arn  # [0] 인덱스를 사용하여 역할 참조
 
   deployment_style {
     deployment_type   = "IN_PLACE"
