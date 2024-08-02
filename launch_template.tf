@@ -1,8 +1,13 @@
+# IAM 인스턴스 프로필 데이터 소스 추가
+data "aws_iam_instance_profile" "existing_codedeploy_instance_profile" {
+  name = "codedeploy_instance_profile"
+}
+
 resource "aws_iam_instance_profile" "example_launch" {
   count = data.aws_iam_instance_profile.existing_codedeploy_instance_profile.name != "" ? 0 : 1
 
   name = "example_instance_profile"
-  role = aws_iam_role.codepipeline_role[count.index].name
+  role = aws_iam_role.codedeploy_role[0].name
 }
 
 resource "aws_launch_template" "example" {
@@ -12,7 +17,7 @@ resource "aws_launch_template" "example" {
   key_name      = aws_key_pair.ec2_key.key_name
 
   iam_instance_profile {
-    name = aws_iam_instance_profile.example_launch[count.index].name
+    name = aws_iam_instance_profile.example_launch[0].name
   }
 
   user_data = <<-EOF
