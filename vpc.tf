@@ -72,12 +72,12 @@ resource "aws_route_table" "rt-pub-vpc-1" {
 }
 
 resource "aws_route_table_association" "rt-pub-as1-vpc-10-10-0-0" {
-  subnet_id      = aws_subnet.publict-sub-1.id
+  subnet_id      = aws_subnet.public-sub-1.id
   route_table_id = aws_route_table.rt-pub-vpc-1.id
 }
 
 resource "aws_route_table_association" "rt-pub-as2-vpc-10-10-0-0" {
-  subnet_id      = aws_subnet.publict-sub-2.id
+  subnet_id      = aws_subnet.public-sub-2.id
   route_table_id = aws_route_table.rt-pub-vpc-1.id
 }
 
