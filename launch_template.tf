@@ -26,13 +26,16 @@ resource "aws_launch_template" "example" {
   }
 }
 
+# 데이터 소스: 기존 IAM 인스턴스 프로필 확인
 data "aws_iam_instance_profile" "existing_codedeploy_instance_profile" {
-  name = "codedeploy_instance_profile"  # 정확한 인스턴스 프로필 이름으로 수정
+  name = "codedeploy_instance_profile"
 }
 
-resource "aws_iam_instance_profile" "example" {
-  count = data.aws_iam_instance_profile.existing_codedeploy_instance_profile.id != "" ? 0 : 1
+# IAM 인스턴스 프로필이 존재하지 않는 경우에만 새로 생성
+resource "aws_iam_instance_profile" "example_launch" {
+  count = data.aws_iam_instance_profile.existing_codedeploy_instance_profile.name != "" ? 0 : 1
 
-  name = "example_instance_profile"  # 새로운 이름으로 수정
+  name = "example_instance_profile"
   role = aws_iam_role.example.name
 }
+
