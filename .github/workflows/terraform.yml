@@ -52,13 +52,7 @@ jobs:
     - name: Terraform Plan
       run: terraform plan -input=false -out=tfplan -no-color
     
-    - name: Terraform Apply
-      id: apply
-      continue-on-error: true
-      run: terraform apply -input=false -auto-approve tfplan
-    
-    - name: Terraform Destroy on Failure
-      if: ${{ failure() || steps.apply.outcome == 'failure' }}
-      run: terraform destroy -auto-approve
+    - name: Terraform Destroy
+      run: terraform destroy -auto-approve -input=false
     
       
