@@ -151,7 +151,7 @@ resource "aws_iam_role" "codepipeline" {
   })
 }
 
-resource "aws_iam_role_policy" "codepipeline" {
+resource "aws_iam_role_policy" "codepipeline_policy" {
   name = "my-cicd-project-codepipeline-policy"
   role = aws_iam_role.codepipeline.id
 
@@ -167,7 +167,11 @@ resource "aws_iam_role_policy" "codepipeline" {
           "codedeploy:GetApplication",
           "codedeploy:GetApplicationRevision",
           "codedeploy:GetDeployment",
-          "codedeploy:RegisterApplicationRevision"
+          "codedeploy:RegisterApplicationRevision",
+          "codecommit:GetRepository",
+          "codecommit:GitPull",
+          "codecommit:ListRepositories",
+          "codecommit:ListBranches"
         ]
         Effect   = "Allow"
         Resource = "*"
