@@ -7,7 +7,7 @@ resource "aws_key_pair" "ec2_key" {
 resource "aws_instance" "nat_1" {
   ami                    = "ami-0c2d3e23e757b5d84" # AWS 리전에 따라 적절한 AMI ID로 변경하세요.
   instance_type          = "t2.micro"
-  subnet_id              = aws_subnet.publict_sub_1.id
+  subnet_id              = aws_subnet.public-sub-1.id
   private_ip             = "10.1.1.100"
   vpc_security_group_ids = [aws_security_group.allow_http.id]
   key_name               = aws_key_pair.ec2_key.key_name
@@ -22,7 +22,7 @@ resource "aws_instance" "nat_1" {
 resource "aws_instance" "nat_2" {
   ami                    = "ami-0c2d3e23e757b5d84" # AWS 리전에 따라 적절한 AMI ID로 변경하세요.
   instance_type          = "t2.micro"
-  subnet_id              = aws_subnet.publict_sub_2.id
+  subnet_id              = aws_subnet.public-sub-2.id
   private_ip             = "10.1.2.100"
   vpc_security_group_ids = [aws_security_group.allow_http.id]
   key_name               = aws_key_pair.ec2_key.key_name

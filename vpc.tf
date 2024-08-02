@@ -16,7 +16,7 @@ resource "aws_internet_gateway" "igw" {
   }
 }
 
-resource "aws_subnet" "publict-sub-1" {
+resource "aws_subnet" "public-sub-1" {
   vpc_id                  = aws_vpc.vpc-1.id
   cidr_block              = "10.1.1.0/24"
   availability_zone       = "ap-northeast-2a"
@@ -27,7 +27,7 @@ resource "aws_subnet" "publict-sub-1" {
   }
 }
 
-resource "aws_subnet" "publict-sub-2" {
+resource "aws_subnet" "public-sub-2" {
   vpc_id                  = aws_vpc.vpc-1.id
   cidr_block              = "10.1.2.0/24"
   availability_zone       = "ap-northeast-2c"
