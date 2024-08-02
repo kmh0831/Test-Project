@@ -1,6 +1,6 @@
 resource "aws_codepipeline" "pipeline" {
   name     = "airline-booking-pipeline"
-  role_arn = aws_iam_role.codepipeline_role[count.index].arn
+  role_arn = aws_iam_role.codepipeline_role[0].arn
 
   artifact_store {
     type     = "S3"
