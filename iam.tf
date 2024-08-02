@@ -11,7 +11,7 @@ data "aws_iam_policy" "existing_codepipeline_policy" {
 
 # IAM 역할이 존재하지 않는 경우에만 생성
 resource "aws_iam_role" "codepipeline_role" {
-  count = data.aws_iam_role.existing_codepipeline_role.id != "" ? 0 : 1
+  count = data.aws_iam_role.existing_codepipeline_role.name == "" ? 1 : 0
 
   name = "codepipeline_role"
 
@@ -31,7 +31,7 @@ resource "aws_iam_role" "codepipeline_role" {
 
 # IAM 정책 생성
 resource "aws_iam_policy" "codepipeline_policy" {
-  count = data.aws_iam_policy.existing_codepipeline_policy.id != "" ? 0 : 1
+  count = data.aws_iam_policy.existing_codepipeline_policy.name == "" ? 1 : 0
 
   name        = "codepipeline_policy"
   description = "Policy for CodePipeline to access S3 and CodeBuild"
@@ -65,7 +65,7 @@ resource "aws_iam_policy" "codepipeline_policy" {
 
 # IAM 역할과 정책 연결
 resource "aws_iam_role_policy_attachment" "codepipeline_policy_attachment" {
-  count = (data.aws_iam_role.existing_codepipeline_role.id != "" && data.aws_iam_policy.existing_codepipeline_policy.id != "") ? 0 : 1
+  count = (data.aws_iam_role.existing_codepipeline_role.name == "" && data.aws_iam_policy.existing_codepipeline_policy.name == "") ? 1 : 0
 
   role       = aws_iam_role.codepipeline_role[count.index].name
   policy_arn = aws_iam_policy.codepipeline_policy[count.index].arn
@@ -84,7 +84,7 @@ data "aws_iam_policy" "existing_codedeploy_policy" {
 
 # IAM 역할이 존재하지 않는 경우에만 생성
 resource "aws_iam_role" "codedeploy_role" {
-  count = data.aws_iam_role.existing_codedeploy_role.id != "" ? 0 : 1
+  count = data.aws_iam_role.existing_codedeploy_role.name == "" ? 1 : 0
 
   name = "codedeploy_role"
 
@@ -104,7 +104,7 @@ resource "aws_iam_role" "codedeploy_role" {
 
 # IAM 정책 생성
 resource "aws_iam_policy" "codedeploy_policy" {
-  count = data.aws_iam_policy.existing_codedeploy_policy.id != "" ? 0 : 1
+  count = data.aws_iam_policy.existing_codedeploy_policy.name == "" ? 1 : 0
 
   name        = "codedeploy_policy"
   description = "Policy for CodeDeploy to interact with EC2 instances and S3"
@@ -146,13 +146,13 @@ resource "aws_iam_policy" "codedeploy_policy" {
 
 # IAM 역할과 정책 연결
 resource "aws_iam_role_policy_attachment" "codedeploy_policy_attachment" {
-  count = (data.aws_iam_role.existing_codedeploy_role.id != "" && data.aws_iam_policy.existing_codedeploy_policy.id != "") ? 0 : 1
+  count = (data.aws_iam_role.existing_codedeploy_role.name == "" && data.aws_iam_policy.existing_codedeploy_policy.name == "") ? 1 : 0
 
   role       = aws_iam_role.codedeploy_role[count.index].name
   policy_arn = aws_iam_policy.codedeploy_policy[count.index].arn
 }
 
-# CodeBuild
+# CodeBuild IAM
 # 데이터 소스를 사용하여 기존 IAM 역할의 존재 여부를 확인
 data "aws_iam_role" "existing_codebuild_role" {
   name = "codebuild_role"
@@ -165,7 +165,7 @@ data "aws_iam_policy" "existing_codebuild_policy" {
 
 # IAM 역할이 존재하지 않는 경우에만 생성
 resource "aws_iam_role" "codebuild_role" {
-  count = data.aws_iam_role.existing_codebuild_role.id != "" ? 0 : 1
+  count = data.aws_iam_role.existing_codebuild_role.name == "" ? 1 : 0
 
   name = "codebuild_role"
 
@@ -185,7 +185,7 @@ resource "aws_iam_role" "codebuild_role" {
 
 # IAM 정책 생성
 resource "aws_iam_policy" "codebuild_policy" {
-  count = data.aws_iam_policy.existing_codebuild_policy.id != "" ? 0 : 1
+  count = data.aws_iam_policy.existing_codebuild_policy.name == "" ? 1 : 0
 
   name        = "codebuild_policy"
   description = "Policy for CodeBuild to access S3 and CodeCommit"
@@ -214,13 +214,13 @@ resource "aws_iam_policy" "codebuild_policy" {
 
 # IAM 역할과 정책 연결
 resource "aws_iam_role_policy_attachment" "codebuild_policy_attachment" {
-  count = (data.aws_iam_role.existing_codebuild_role.id != "" && data.aws_iam_policy.existing_codebuild_policy.id != "") ? 0 : 1
+  count = (data.aws_iam_role.existing_codebuild_role.name == "" && data.aws_iam_policy.existing_codebuild_policy.name == "") ? 1 : 0
 
   role       = aws_iam_role.codebuild_role[count.index].name
   policy_arn = aws_iam_policy.codebuild_policy[count.index].arn
 }
 
-# Defalt IAM
+# Default IAM
 # 데이터 소스를 사용하여 기존 IAM 역할의 존재 여부를 확인
 data "aws_iam_role" "existing_role" {
   name = "role_name"
@@ -233,7 +233,7 @@ data "aws_iam_policy" "existing_policy" {
 
 # IAM 역할이 존재하지 않는 경우에만 생성
 resource "aws_iam_role" "role_name" {
-  count = data.aws_iam_role.existing_role.id != "" ? 0 : 1
+  count = data.aws_iam_role.existing_role.name == "" ? 1 : 0
 
   name = "role_name"
 
@@ -259,7 +259,7 @@ resource "aws_iam_role" "role_name" {
 
 # IAM 정책 생성
 resource "aws_iam_policy" "policy_name" {
-  count = data.aws_iam_policy.existing_policy.id != "" ? 0 : 1
+  count = data.aws_iam_policy.existing_policy.name == "" ? 1 : 0
 
   name        = "example-policy"
   description = "An example policy for accessing an S3 bucket"
@@ -284,7 +284,7 @@ resource "aws_iam_policy" "policy_name" {
 
 # IAM 역할과 정책 연결
 resource "aws_iam_role_policy_attachment" "attachment_name" {
-  count = (data.aws_iam_role.existing_role.id != "" && data.aws_iam_policy.existing_policy.id != "") ? 0 : 1
+  count = (data.aws_iam_role.existing_role.name == "" && data.aws_iam_policy.existing_policy.name == "") ? 1 : 0
 
   role       = aws_iam_role.role_name[count.index].name
   policy_arn = aws_iam_policy.policy_name[count.index].arn
