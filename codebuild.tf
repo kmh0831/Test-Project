@@ -21,7 +21,7 @@ resource "aws_codebuild_project" "build_project" {
 
   source {
     type      = "CODECOMMIT"
-    location  = aws_codecommit_repository.this.clone_url_http
+    location  = aws_codecommit_repository.my_repo.clone_url_http
     buildspec = <<EOF
 version: 0.2
 

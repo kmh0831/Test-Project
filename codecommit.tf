@@ -1,4 +1,4 @@
-resource "aws_codecommit_repository" "this" {
-  repository_name = "my-cicd-project"
-  description     = "CodeCommit repository for my-cicd-project"
+resource "aws_codecommit_repository" "my_repo" {
+  repository_name = "MyDemoRepo"
+  description     = "My demonstration repository"
 }

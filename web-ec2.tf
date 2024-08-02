@@ -7,7 +7,7 @@ resource "aws_key_pair" "ec2_key" {
 resource "aws_instance" "nat_1" {
   ami                    = "ami-0c2d3e23e757b5d84" # AWS 리전에 따라 적절한 AMI ID로 변경하세요.
   instance_type          = "t2.micro"
-  subnet_id              = aws_subnet.publict-sub-1.id
+  subnet_id              = aws_subnet.publict_sub_1.id
   private_ip             = "10.1.1.100"
   vpc_security_group_ids = [aws_security_group.allow_http.id]
   key_name               = aws_key_pair.ec2_key.key_name
@@ -18,11 +18,11 @@ resource "aws_instance" "nat_1" {
   }
 }
 
-# NAT EC2 1 인스턴스 생성
+# NAT EC2 2 인스턴스 생성
 resource "aws_instance" "nat_2" {
   ami                    = "ami-0c2d3e23e757b5d84" # AWS 리전에 따라 적절한 AMI ID로 변경하세요.
   instance_type          = "t2.micro"
-  subnet_id              = aws_subnet.publict-sub-2.id
+  subnet_id              = aws_subnet.publict_sub_2.id
   private_ip             = "10.1.2.100"
   vpc_security_group_ids = [aws_security_group.allow_http.id]
   key_name               = aws_key_pair.ec2_key.key_name
@@ -40,8 +40,8 @@ data "aws_iam_instance_profile" "existing_profile" {
 
 # IAM 인스턴스 프로필이 존재하지 않는 경우에만 새로 생성
 resource "aws_iam_instance_profile" "new_profile" {
-  count = data.aws_iam_instance_profile.existing_profile.id != "" ? 0 : 1
+  count = length(data.aws_iam_instance_profile.existing_profile.id) > 0 ? 0 : 1
 
   name = "Terraform-IAM"
-  role = aws_iam_role.codepipeline_role[count.index].name
+  role = aws_iam_role.codepipeline.name
 }
