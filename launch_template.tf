@@ -34,5 +34,5 @@ resource "aws_iam_instance_profile" "codedeploy_instance_profile" {
   count = data.aws_iam_instance_profile.existing_codedeploy_instance_profile.id != "" ? 0 : 1
 
   name = "codedeploy_instance_profile"
-  role = aws_iam_role.codedeploy_role[0].name  # 인덱스 사용
+  role = aws_iam_role.codedeploy_role[count.index].name  # [count.index] 사용
 }

@@ -40,5 +40,5 @@ data "aws_iam_instance_profile" "example" {
 resource "aws_iam_instance_profile" "example" {
   count = data.aws_iam_instance_profile.example.id == "" ? 1 : 0
   name  = "Terraform-IAM"
-  role  = aws_iam_role.codepipeline_role[0].name
+  role  = aws_iam_role.codepipeline_role[count.index].name
 }
