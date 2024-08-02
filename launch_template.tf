@@ -26,13 +26,15 @@ resource "aws_launch_template" "example" {
   }
 }
 
+# 데이터 소스를 사용하여 기존 IAM 인스턴스 프로파일의 존재 여부를 확인
 data "aws_iam_instance_profile" "existing_codedeploy_instance_profile" {
   name = "codedeploy_instance_profile"
 }
 
+# IAM 인스턴스 프로파일이 존재하지 않는 경우에만 생성
 resource "aws_iam_instance_profile" "codedeploy_instance_profile" {
   count = data.aws_iam_instance_profile.existing_codedeploy_instance_profile.id != "" ? 0 : 1
 
   name = "codedeploy_instance_profile"
-  role = aws_iam_role.codedeploy_role.name
+  role = aws_iam_role.codedeploy_role[0].name  # 인덱스 사용
 }
