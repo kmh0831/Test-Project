@@ -27,12 +27,12 @@ resource "aws_launch_template" "example" {
 }
 
 data "aws_iam_instance_profile" "existing_codedeploy_instance_profile" {
-  name = "codedeploy_instance_profile"
+  name = "codedeploy_instance_profile"  # 정확한 인스턴스 프로필 이름으로 수정
 }
 
-resource "aws_iam_instance_profile" "codedeploy_instance_profile" {
+resource "aws_iam_instance_profile" "example" {
   count = data.aws_iam_instance_profile.existing_codedeploy_instance_profile.id != "" ? 0 : 1
 
-  name = "codedeploy_instance_profile"
-  role = aws_iam_role.codedeploy_role[count.index].name  # [count.index] 사용
+  name = "example_instance_profile"  # 새로운 이름으로 수정
+  role = aws_iam_role.example.name
 }
