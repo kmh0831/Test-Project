@@ -25,6 +25,9 @@ resource "aws_launch_template" "code_deploy_template" {
               service codedeploy-agent start
               sudo yum install -y httpd
               sudo systemctl enable --now httpd
+              curl -sL https://rpm.nodesource.com/setup_16.x | sudo -E bash -
+	            sudo yum install -y nodejs
+              sudo yum install -y git
               EOF
   )
 }
